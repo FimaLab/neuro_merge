@@ -153,7 +153,7 @@ if any(len(files) == 3 for files in uploaded_files.values()):
                 st.download_button(
                     label=f"📥 Скачать Excel для {time_point}",
                     data=st.session_state[f"download_data_{time_point}"],
-                    file_name=f"Statistics-{st.session_state["compound"]}-{time_point}.xlsx",
+                    file_name=f"Statistics-{st.session_state['compound']}-{time_point}.xlsx",
                     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                     key=f"download_btn_{time_point}"
                 )
