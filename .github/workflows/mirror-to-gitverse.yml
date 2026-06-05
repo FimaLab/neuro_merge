@@ -29,26 +29,20 @@ jobs:
           GITVERSE_OWNER: ${{ vars.GITVERSE_OWNER }}
 
         run: |
-          # Проверяем, что владелец GitVerse указан
-          if [ -z "$GITVERSE_OWNER" ]; then
-            echo "Ошибка: переменная GITVERSE_OWNER не задана"
-            exit 1
-          fi
-
-          # Проверяем, что токен GitVerse указан
           if [ -z "$GITVERSE_TOKEN" ]; then
             echo "Ошибка: secret GITVERSE_TOKEN не задан"
             exit 1
           fi
 
-          # Получаем имя текущего репозитория
+          if [ -z "$GITVERSE_OWNER" ]; then
+            echo "Ошибка: variable GITVERSE_OWNER не задан"
+            exit 1
+          fi
+
           REPO_NAME="${GITHUB_REPOSITORY#*/}"
 
-          # Формируем адрес репозитория GitVerse
-          GITVERSE_URL="https://oauth2:${GITVERSE_TOKEN}@gitverse.ru/${GITVERSE_OWNER}/${REPO_NAME}.git"
+          GITVERSE_URL="https://${GITVERSE_TOKEN}@gitverse.ru/${GITVERSE_OWNER}/${REPO_NAME}.git"
 
-          # Добавляем удалённый репозиторий GitVerse
           git remote add gitverse "$GITVERSE_URL"
 
-          # Полностью зеркалируем репозиторий
           git push gitverse --mirror
