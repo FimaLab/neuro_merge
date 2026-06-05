@@ -1,14 +1,11 @@
 name: Mirror to GitVerse
 
 on:
-  # Запускать после любого push
   push:
     branches:
       - "**"
     tags:
       - "**"
-
-  # Возможность запустить вручную из GitHub Actions
   workflow_dispatch:
 
 jobs:
@@ -32,15 +29,15 @@ jobs:
           GITVERSE_OWNER: ${{ vars.GITVERSE_OWNER }}
 
         run: |
-          # Проверяем, что токен GitVerse задан
-          if [ -z "$GITVERSE_TOKEN" ]; then
-            echo "Ошибка: secret GITVERSE_TOKEN не задан"
+          # Проверяем, что владелец GitVerse указан
+          if [ -z "$GITVERSE_OWNER" ]; then
+            echo "Ошибка: переменная GITVERSE_OWNER не задана"
             exit 1
           fi
 
-          # Проверяем, что владелец GitVerse задан
-          if [ -z "$GITVERSE_OWNER" ]; then
-            echo "Ошибка: variable GITVERSE_OWNER не задан"
+          # Проверяем, что токен GitVerse указан
+          if [ -z "$GITVERSE_TOKEN" ]; then
+            echo "Ошибка: secret GITVERSE_TOKEN не задан"
             exit 1
           fi
 
@@ -53,6 +50,5 @@ jobs:
           # Добавляем удалённый репозиторий GitVerse
           git remote add gitverse "$GITVERSE_URL"
 
-          # Полностью зеркалируем репозиторий:
-          # ветки, теги, историю и служебные ссылки Git
+          # Полностью зеркалируем репозиторий
           git push gitverse --mirror
